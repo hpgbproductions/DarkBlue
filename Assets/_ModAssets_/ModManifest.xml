@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModManifest buildID="9ead1744-6fe4-45e7-95c4-8e06586fa6ec">
+  <Mod name="DarkBlue" author="hpgbproductions" versionMajor="1" versionMinor="0" loadPriority="1000" lastUpdated="2021-03-28T05:41:48.9338631Z" apiVersion="1.0.0.0" description="">
+    <Steam title="" visibility="Public" previewPath="" language="English" tags="">
+      <description></description>
+    </Steam>
+    <GameObjects>
+      <GameObject name="DarkBlue" path="Assets/_ModAssets_/DarkBlue.prefab" />
+    </GameObjects>
+    <Assets />
+    <MaterialShaderMap />
+    <Assemblies>
+      <Assembly name="DarkBlue-Assembly-CSharp.dll" path="Assets/_ModAssets_/DarkBlue-Assembly-CSharp.dll.bytes" isProjectAssembly="true" />
+    </Assemblies>
+    <Sections>
+      <SimplePlanesMod apiVersion="1.0.0.0">
+        <Maps />
+        <Levels />
+        <Parts />
+        <DesignerPlugins />
+        <MapPlugins />
+        <PersistentObjects>
+          <PersistentObject objectName="DarkBlue" />
+        </PersistentObjects>
+      </SimplePlanesMod>
+    </Sections>
+  </Mod>
+</ModManifest>
