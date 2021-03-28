@@ -51,7 +51,7 @@ public class DarkBlue : MonoBehaviour
                 {
                     if (ServiceProvider.Instance.GameState.IsInLevel)
                     {
-                        SetAltitude(ServiceProvider.Instance.PlayerAircraft.Altitude);
+                        SetAltitude(Camera.main.transform.position.y + ServiceProvider.Instance.GameWorld.FloatingOriginOffset.y);
                     }
                     else
                     {
