@@ -88,16 +88,16 @@ public class DarkBlue : MonoBehaviour
 
     private void ActivateAutoAltitude()
     {
-        if (!ServiceProvider.Instance.GameState.IsInDesigner)
+        if (AutoAltitude)
+        {
+            Debug.Log("Disabled automatic sky simulation.");
+            AutoAltitude = false;
+        }
+        else if (!ServiceProvider.Instance.GameState.IsInDesigner)
         {
             Debug.Log("Enabled automatic sky simulation.");
             AutoAltitude = true;
             TimelapseAltitude = 0f;
-        }
-        else if (AutoAltitude)
-        {
-            Debug.Log("Disabled automatic sky simulation.");
-            AutoAltitude = false;
         }
         else
         {
