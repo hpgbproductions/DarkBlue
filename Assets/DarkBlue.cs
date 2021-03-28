@@ -7,6 +7,9 @@ public class DarkBlue : MonoBehaviour
     // Whether altitude effects should run automatically, using the aircraft's altitude
     private bool AutoAltitude = false;
 
+    // Menu timelapse setting
+    private float TimelapseAltitude = 0f;
+
     // SkyDome GameObject
     private GameObject sky;
 
@@ -20,6 +23,11 @@ public class DarkBlue : MonoBehaviour
     private Type skyComponentCloudType;
     private object skyComponentCloud;
     private FieldInfo CloudOpacity;
+    private FieldInfo CloudCoverage;
+    private FieldInfo CloudSharpness;
+
+    // Used for cloud parameter calculations
+    private float CloudValue;
 
     private void Start()
     {
@@ -32,10 +40,25 @@ public class DarkBlue : MonoBehaviour
     {
         if (AutoAltitude)
         {
-            if (ServiceProvider.Instance.GameState.IsInLevel && !ServiceProvider.Instance.GameState.IsInDesigner)
+            if (sky == null)
+            {
+                Debug.Log("SkyDome GameObject lost. Disabled automatic sky simulation.");
+                AutoAltitude = false;
+            }
+            else if (!ServiceProvider.Instance.GameState.IsInDesigner)
             {
                 if (!ServiceProvider.Instance.GameState.IsPaused)
-                    SetAltitude(ServiceProvider.Instance.PlayerAircraft.Altitude);
+                {
+                    if (ServiceProvider.Instance.GameState.IsInLevel)
+                    {
+                        SetAltitude(ServiceProvider.Instance.PlayerAircraft.Altitude);
+                    }
+                    else
+                    {
+                        TimelapseAltitude += Time.deltaTime * 500f;
+                        SetAltitude(TimelapseAltitude);
+                    }
+                }
             }
             else
             {
@@ -65,18 +88,25 @@ public class DarkBlue : MonoBehaviour
 
     private void ActivateAutoAltitude()
     {
-        if (ServiceProvider.Instance.GameState.IsInLevel && !ServiceProvider.Instance.GameState.IsInDesigner)
+        if (!ServiceProvider.Instance.GameState.IsInDesigner)
         {
+            Debug.Log("Enabled automatic sky simulation.");
             AutoAltitude = true;
+            TimelapseAltitude = 0f;
+        }
+        else if (AutoAltitude)
+        {
+            Debug.Log("Disabled automatic sky simulation.");
+            AutoAltitude = false;
         }
         else
         {
-            Debug.LogError("Cannot activate automatic system outside of level!");
+            Debug.LogError("Cannot activate automatic system in designer!");
             AutoAltitude = false;
         }
     }
 
-    // Manually sets scattering coefficients
+    // Sets parameters with given altitude
     private void SetAltitude(float s)
     {
         if (sky == null)
@@ -88,11 +118,14 @@ public class DarkBlue : MonoBehaviour
         // Returns 1 at low altitude, decreases as altitude increases
         float LerpAmount = Mathf.Min(1, Mathf.Exp(-0.00007f * s));
         float CloudLerpAmount = Mathf.Clamp01(Mathf.InverseLerp(11000f, 4000f, s));
+        float CloudCoverageValue = Mathf.Min(CloudLerpAmount * CloudLerpAmount, CloudValue);
 
         Directionality.SetValue(skyComponentAtmosphere, Mathf.Lerp(0.2f, 0.7f, LerpAmount));
         Brightness.SetValue(skyComponentAtmosphere, Mathf.Lerp(0.1f, 1.5f, LerpAmount));
 
-        CloudOpacity.SetValue(skyComponentCloud, CloudLerpAmount);
+        CloudOpacity.SetValue(skyComponentCloud, Mathf.Clamp01(3 * CloudLerpAmount));
+        CloudCoverage.SetValue(skyComponentCloud, CloudCoverageValue);
+        CloudSharpness.SetValue(skyComponentCloud, 0.5f * CloudLerpAmount);
     }
 
     // Looks for a SkyDome GameObject and displays member information. This is the setup command.
@@ -164,8 +197,15 @@ public class DarkBlue : MonoBehaviour
                             FieldInfo[] cFields = skyComponentCloudType.GetFields();
                             foreach (FieldInfo cField in cFields)
                             {
-                                if (cField.Name == "Opacity")
+                                if (cField.Name == "Coverage")
+                                {
+                                    CloudCoverage = cField;
+                                    CloudValue = (float)cField.GetValue(skyComponentCloud);
+                                }
+                                else if (cField.Name == "Opacity")
                                     CloudOpacity = cField;
+                                else if (cField.Name == "Sharpness")
+                                    CloudSharpness = cField;
                             }
                         }
                     }

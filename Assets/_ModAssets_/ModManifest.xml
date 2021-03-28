@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModManifest buildID="9ead1744-6fe4-45e7-95c4-8e06586fa6ec">
-  <Mod name="DarkBlue" author="hpgbproductions" versionMajor="1" versionMinor="0" loadPriority="1000" lastUpdated="2021-03-28T05:41:48.9338631Z" apiVersion="1.0.0.0" description="">
+<ModManifest buildID="a150a9ac-ee1d-4643-a35e-e07df928414e">
+  <Mod name="DarkBlue" author="hpgbproductions" versionMajor="1" versionMinor="0" loadPriority="1000" lastUpdated="2021-03-28T07:39:43.1896998Z" apiVersion="1.0.0.0" description="">
     <Steam title="" visibility="Public" previewPath="" language="English" tags="">
       <description></description>
     </Steam>
