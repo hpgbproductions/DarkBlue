@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DarkBlue : MonoBehaviour
 {
+    private bool AutoSetupComplete = false;
+    private float AutoSetupTimer = 3f;
+
     // Whether altitude effects should run automatically, using the aircraft's altitude
     private bool AutoAltitude = false;
 
@@ -31,13 +34,26 @@ public class DarkBlue : MonoBehaviour
 
     private void Start()
     {
-        ServiceProvider.Instance.DevConsole.RegisterCommand("DarkBlueFindSkyDome", FindSkyDome);
         ServiceProvider.Instance.DevConsole.RegisterCommand<float>("DarkBlueSetAltitude", SetAltitude);
         ServiceProvider.Instance.DevConsole.RegisterCommand("DarkBlueAutoAltitude", ActivateAutoAltitude);
     }
 
     private void Update()
     {
+        // Auto setup runs after 3 seconds
+        if (!AutoSetupComplete && AutoSetupTimer < 0f)
+        {
+            Debug.Log("DarkBlue automatically setting up");
+            FindSkyDome();
+            ActivateAutoAltitude();
+            AutoSetupComplete = true;
+        }
+        else
+        {
+            AutoSetupTimer -= Time.deltaTime;
+        }
+
+        // Automatically update sky brightness if AutoAltitude is enabled
         if (AutoAltitude)
         {
             if (sky == null)
@@ -93,16 +109,11 @@ public class DarkBlue : MonoBehaviour
             Debug.Log("Disabled automatic sky simulation.");
             AutoAltitude = false;
         }
-        else if (!ServiceProvider.Instance.GameState.IsInDesigner)
+        else
         {
             Debug.Log("Enabled automatic sky simulation.");
             AutoAltitude = true;
             TimelapseAltitude = 0f;
-        }
-        else
-        {
-            Debug.LogError("Cannot activate automatic system in designer!");
-            AutoAltitude = false;
         }
     }
 
@@ -121,7 +132,7 @@ public class DarkBlue : MonoBehaviour
         float CloudCoverageValue = Mathf.Min(CloudLerpAmount * CloudLerpAmount, CloudValue);
 
         Directionality.SetValue(skyComponentAtmosphere, Mathf.Lerp(0.2f, 0.7f, LerpAmount));
-        Brightness.SetValue(skyComponentAtmosphere, Mathf.Lerp(0.1f, 1.5f, LerpAmount));
+        Brightness.SetValue(skyComponentAtmosphere, Mathf.Lerp(0.05f, 1f, LerpAmount));
 
         CloudOpacity.SetValue(skyComponentCloud, Mathf.Clamp01(3 * CloudLerpAmount));
         CloudCoverage.SetValue(skyComponentCloud, CloudCoverageValue);

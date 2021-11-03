@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModManifest buildID="6c51f961-846e-4f7e-8ed6-9bc435339ebf">
-  <Mod name="DarkBlue" author="hpgbproductions" versionMajor="1" versionMinor="0" loadPriority="1000" lastUpdated="2021-03-28T08:59:08.5633715Z" apiVersion="1.0.0.0" description="">
+<ModManifest buildID="16b151a6-72f4-4b82-b5ef-de39e3850d67">
+  <Mod name="DarkBlue" author="hpgbproductions" versionMajor="1" versionMinor="1" loadPriority="1000" lastUpdated="2021-11-03T04:31:41.5512632Z" apiVersion="1.0.0.0" description="">
     <Steam title="" visibility="Public" previewPath="" language="English" tags="">
       <description></description>
     </Steam>
@@ -18,10 +18,10 @@
         <Levels />
         <Parts />
         <DesignerPlugins />
-        <MapPlugins />
-        <PersistentObjects>
-          <PersistentObject objectName="DarkBlue" />
-        </PersistentObjects>
+        <MapPlugins>
+          <MapPlugin objectName="DarkBlue" />
+        </MapPlugins>
+        <PersistentObjects />
       </SimplePlanesMod>
     </Sections>
   </Mod>

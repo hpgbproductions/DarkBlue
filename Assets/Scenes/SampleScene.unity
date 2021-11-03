@@ -305,9 +305,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1116736746}
-  - component: {fileID: 1116736744}
   - component: {fileID: 1116736745}
-  - component: {fileID: 1116736747}
+  - component: {fileID: 1116736744}
   m_Layer: 0
   m_Name: DarkBlue
   m_TagString: Untagged
@@ -324,9 +323,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1116736743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1430096057, guid: 0ae1b6aafcdc6bc46b35491a5c18721e, type: 3}
+  m_Script: {fileID: 148421896, guid: 0ae1b6aafcdc6bc46b35491a5c18721e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SupportedMapNames: []
 --- !u!114 &1116736745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,15 +353,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1116736747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116736743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27856bf9a7f08d44683a271ecd68bba4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
